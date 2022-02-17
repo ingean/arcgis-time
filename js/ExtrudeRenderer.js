@@ -4,6 +4,7 @@ const getSymbol = (color) => {
     symbolLayers: [
       {
         type: "extrude", // autocasts as new ExtrudeSymbol3DLayer()
+        castShadows: true,
         material: {
           color: color
         },
