@@ -1,4 +1,3 @@
-import Bookmarks from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/Bookmarks.js'
 import BasemapGallery from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/BasemapGallery.js'
 import LayerList from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/LayerList.js'
 import Legend from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/Legend.js'
@@ -39,10 +38,6 @@ const init = (view) => {
   const basemaps = new BasemapGallery({
     view,
     container: "basemaps-container"
-  })
-  const bookmarks = new Bookmarks({
-    view,
-    container: "bookmarks-container"
   })
   const layerList = new LayerList({
     view,
