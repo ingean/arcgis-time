@@ -29,42 +29,21 @@
 
         <calcite-shell-panel slot="primary-panel" detached>
   
-          <calcite-action-bar slot="action-bar">
-            <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
-            <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
-            <calcite-action data-action-id="legend" icon="legend" text="Legend"></calcite-action>
-            <calcite-action data-action-id="print" icon="print" text="Print"></calcite-action>
-            <calcite-action data-action-id="information" icon="information" text="Information"></calcite-action>
+          <calcite-action-bar slot="action-bar" intl-collapse="Minimere" intl-expand="Maksimere">
+            <calcite-action data-action-id="layers" icon="layers" text="Kartlag"></calcite-action>
+            <calcite-action data-action-id="basemaps" icon="basemap" text="Bakgrunnskart"></calcite-action>
+            <calcite-action data-action-id="legend" icon="legend" text="Tegnforklaring"></calcite-action>
           </calcite-action-bar>
   
           <!-- map-specific panels (each one provides a div for JS API widgets) -->
-          <calcite-panel heading="Layers" height-scale="l" width-scale="m" data-panel-id="layers" hidden>
+          <calcite-panel heading="Kartlag" height-scale="l" width-scale="m" data-panel-id="layers" hidden>
             <div id="layers-container"></div>
           </calcite-panel>
-          <calcite-panel heading="Basemaps" height-scale="l" width-scale="m" data-panel-id="basemaps" hidden>
+          <calcite-panel heading="Bakgrunnskart" height-scale="l" width-scale="m" data-panel-id="basemaps" hidden>
             <div id="basemaps-container"></div>
           </calcite-panel>
-          <calcite-panel heading="Legend" height-scale="l" width-scale="m" data-panel-id="legend" hidden>
+          <calcite-panel heading="Tegnforklaring" height-scale="l" width-scale="m" data-panel-id="legend" hidden>
             <div id="legend-container"></div>
-          </calcite-panel>
-          <calcite-panel heading="Print" height-scale="l" width-scale="m" data-panel-id="print" hidden>
-            <div id="print-container"></div>
-          </calcite-panel>
-  
-          <!-- info panel (populates with info from the web map) -->
-          <calcite-panel heading="Details" data-panel-id="information" hidden>
-            <div id="info-content">
-              <img id="item-thumbnail" />
-              <div id="item-description">
-                <!--dynamically populated-->
-              </div>
-              <calcite-label layout="inline">
-                <b>Rating:</b>
-                <calcite-rating read-only>
-                  <!--dynamically populated-->
-                </calcite-rating>
-              </calcite-label>
-            </div>
           </calcite-panel>
   
         </calcite-shell-panel>

@@ -1,59 +1,54 @@
 import BasemapGallery from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/BasemapGallery.js'
 import LayerList from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/LayerList.js'
 import Legend from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/Legend.js'
-import Print from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/Print.js'
 import Fullscreen from "https://js.arcgis.com/4.22/@arcgis/core/widgets/Fullscreen.js"
 
-let activeWidget;
-
-const handleActionBarClick = ({ target }) => {
-  if (target.tagName !== "CALCITE-ACTION") {
-    return
-  }
-  if (activeWidget) {
-    document.querySelector(`[data-action-id=${activeWidget}]`).active = false
-    document.querySelector(`[data-panel-id=${activeWidget}]`).hidden = true
-  }
-  const nextWidget = target.dataset.actionId
-  if (nextWidget !== activeWidget) {
-    document.querySelector(`[data-action-id=${nextWidget}]`).active = true
-    document.querySelector(`[data-panel-id=${nextWidget}]`).hidden = false
-    activeWidget = nextWidget
-  } else {
-    activeWidget = null
-  }
-}
-
 export default class ActionBar {
-  constructor(view) {
+  constructor(view, defaultActiveWidgetId = null) {
     this.view = view
-    init(view);
+    this.activeWidget = defaultActiveWidgetId
+    this.widgets = {
+      basemaps: new BasemapGallery({
+        view,
+        container: "basemaps-container"
+      }),
+      layerList: new LayerList({
+        view,
+        selectionEnabled: true,
+        container: "layers-container"
+      }),
+      legend: new Legend({
+        view,
+        container: "legend-container"
+      }),
+      fullscreen: new Fullscreen({
+        view: view
+      })
+    }
+    view.ui.move("zoom", "bottom-right")
+    view.ui.add(this.widgets.fullscreen, "top-right")
+    document.querySelector("calcite-action-bar").addEventListener("click", this.handleActionBarClick)
   }
-}
 
-const init = (view) => {
-  document.querySelector("calcite-action-bar").addEventListener("click", handleActionBarClick)
-  view.ui.move("zoom", "bottom-right")
+  
+  handleActionBarClick = ({ target }) => { // Use fat arrow function or this will point at the clicked html element
+    if (target.tagName !== "CALCITE-ACTION") return
+    if (this.activeWidget) this.toggleActionBarItem(this.activeWidget, false)
+    
+    const nextWidget = target.dataset.actionId
+    
+    if (nextWidget !== this.activeWidget) {
+      this.toggleActionBarItem(nextWidget, true)
+      this.activeWidget = nextWidget
+    } else {
+      this.activeWidget = null
+    }
+  }
 
-  const basemaps = new BasemapGallery({
-    view,
-    container: "basemaps-container"
-  })
-  const layerList = new LayerList({
-    view,
-    selectionEnabled: true,
-    container: "layers-container"
-  })
-  const legend = new Legend({
-    view,
-    container: "legend-container"
-  })
-  const print = new Print({
-    view,
-    container: "print-container"
-  })
-  const fullscreen = new Fullscreen({
-    view: view
-  })
-  view.ui.add(fullscreen, "top-right")
+  toggleActionBarItem = (id, visible) => {
+    document.querySelector(`[data-action-id=${id}]`).active = visible
+    document.querySelector(`[data-panel-id=${id}]`).hidden = !visible
+    let widget = this.widgets[id]
+    if (widget) widget.visible = visible
+  } 
 }
